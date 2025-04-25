@@ -12,6 +12,7 @@ pub fn process_unstake_instruction(accounts: &[AccountInfo], data: &[u8]) -> Pro
         user_account,
         config,
         user_token,
+        user_token_ata,
         stake_account,
         vault,
         _token_program,
@@ -29,6 +30,7 @@ pub fn process_unstake_instruction(accounts: &[AccountInfo], data: &[u8]) -> Pro
     let stake_config = unsafe { StakeConfig::from_account_info_unchecked(config) };
     let user_account = unsafe { UserAccount::from_account_info_unchecked(user_account) };
     let stake_acc = unsafe { StakeAccount::from_account_info_unchecked(stake_account) };
+    let user_token_ata_acc = unsafe { TokenAccount::from_account_info_unchecked(user_token_ata) };
 
     // Verify ownership
     assert_eq!(stake_acc.owner, *user.key());
@@ -48,7 +50,7 @@ pub fn process_unstake_instruction(accounts: &[AccountInfo], data: &[u8]) -> Pro
         log!("Transferring token back to user");
         pinocchio_token::instructions::Transfer {
             from: vault,
-            to: user_token,
+            to: user_token_ata_acc,
             authority: config,
             amount: amount.into(),
         }.invoke_signed(&[signer.clone()])?;
