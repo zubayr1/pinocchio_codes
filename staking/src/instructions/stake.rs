@@ -13,6 +13,7 @@ pub fn process_stake_instruction(accounts: &[AccountInfo], data: &[u8]) -> Progr
         user_account,
         config,
         user_token,
+        user_token_ata,
         stake_account,
         vault,
         _system_program,
@@ -30,6 +31,7 @@ pub fn process_stake_instruction(accounts: &[AccountInfo], data: &[u8]) -> Progr
     let amount = unsafe { *data.as_ptr().add(1) };
     let config = unsafe { StakeConfig::from_account_info_unchecked(config) };
     let user_account = unsafe { UserAccount::from_account_info_unchecked(user_account) };
+    let user_token_ata_acc = unsafe { TokenAccount::from_account_info_unchecked(user_token_ata) };
 
     // Check if user hasn't exceeded max stake limit
     if user_account.amount_stake >= config.max_stake {
@@ -64,7 +66,7 @@ pub fn process_stake_instruction(accounts: &[AccountInfo], data: &[u8]) -> Progr
 
             // Transfer token to vault
             pinocchio_token::instructions::Transfer {
-                from: user_token,
+                from: user_token_ata_acc,
                 to: vault,
                 authority: user,
                 amount: amount.into(),
