@@ -3,7 +3,7 @@ use pinocchio::{
     instruction::{Seed, Signer},
     program_error::ProgramError,
     pubkey::Pubkey,
-    sysvars::rent::Rent,
+    // sysvars::rent::Rent,
     ProgramResult,
 };
 use pinocchio_token::instructions::CloseAccount;
@@ -13,7 +13,6 @@ use pinocchio_token::{ instructions::TransferChecked, state::{ Mint, TokenAccoun
 use crate::{
     error::MyProgramError,
     state::{
-        utils::load_acc_mut_unchecked,
         utils::{load_ix_data, DataLen},
         EscrowState,
     },

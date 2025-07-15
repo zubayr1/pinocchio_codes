@@ -3,11 +3,10 @@ use pinocchio::{
     instruction::{Seed, Signer},
     program_error::ProgramError,
     pubkey::Pubkey,
-    sysvars::rent::Rent,
     ProgramResult,
 };
 
-use pinocchio_system::instructions::CreateAccount;
+// use pinocchio_system::instructions::CreateAccount;
 use crate::instruction::create_account_checked::CreateAccountChecked;
 
 use pinocchio_token::{ instructions::TransferChecked, state::{ Mint, TokenAccount } };
