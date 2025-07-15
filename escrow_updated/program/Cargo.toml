@@ -1,5 +1,5 @@
 [package]
-name = "solana-pinocchio-starter"
+name = "escrow_updated"
 version = "0.1.0"
 edition = "2021"
 
@@ -11,6 +11,7 @@ pinocchio = "0.8.4"
 pinocchio-log = "0.4.0"
 pinocchio-pubkey = "0.2.4"
 pinocchio-system = "0.2.3"
+pinocchio-token = "0.3.0"
 shank = "0.4.2"
 
 [dev-dependencies]
