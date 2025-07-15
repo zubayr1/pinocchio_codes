@@ -1,6 +1,6 @@
 #![allow(unexpected_cfgs)]
 
-use crate::instruction::{self, MyProgramInstruction};
+use crate::instruction::{self, EscrowInstruction};
 use pinocchio::{
     account_info::AccountInfo, default_panic_handler, msg, no_allocator, program_entrypoint,
     program_error::ProgramError, pubkey::Pubkey, ProgramResult,
@@ -23,14 +23,14 @@ fn process_instruction(
         .split_first()
         .ok_or(ProgramError::InvalidInstructionData)?;
 
-    match MyProgramInstruction::try_from(ix_disc)? {
-        MyProgramInstruction::InitializeState => {
+    match EscrowInstruction::try_from(ix_disc)? {
+        EscrowInstruction::MakeEscrow => {
             msg!("Ix:0");
-            instruction::process_initilaize_state(accounts, instruction_data)
+            instruction::process_make_escrow(accounts, instruction_data)
         }
-        MyProgramInstruction::UpdateState => {
+        EscrowInstruction::TakeEscrow => {
             msg!("Ix:1");
-            instruction::process_update_state(accounts, instruction_data)
+            instruction::process_take_escrow(accounts, instruction_data)
         }
     }
 }
