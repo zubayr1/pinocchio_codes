@@ -7,7 +7,8 @@ use pinocchio::{
 };
 
 // use pinocchio_system::instructions::CreateAccount;
-use crate::instruction::create_account_checked::CreateAccountChecked;
+use crate::instruction::create_account::CreateAccount;
+use crate::instruction::create_account_with_seed::CreateAccountWithSeed;
 
 use pinocchio_token::{ instructions::TransferChecked, state::{ Mint, TokenAccount } };
 
@@ -80,16 +81,39 @@ pub fn process_make_escrow(accounts: &[AccountInfo], data: &[u8]) -> ProgramResu
         Seed::from(&pda_bump_bytes[..]),
     ];
     let signers = [Signer::from(&signer_seeds[..])];
-    // Create the governance config account
-    CreateAccountChecked {
-        from: maker,
-        to: escrow_acc,
-        space: EscrowState::LEN as u64,
-        owner: &crate::ID,
+
+    let create_account_ctx = CreateAccount::with_rent_check(
+        maker,
+        escrow_acc,
         sysvar_rent_acc,
-        // lamports: rent.minimum_balance(MyState::LEN),
-    }
-    .invoke_signed(&signers)?;
+        EscrowState::LEN as u64,
+        &crate::ID,        
+    )?;
+    create_account_ctx.invoke_signed(&signers)?;
+
+    // let create_account_with_seed_ctx = CreateAccountWithSeed::with_rent_check(
+    //     maker,
+    //     escrow_acc,
+    //     None,
+    //     "escrow",
+    //     sysvar_rent_acc,
+    //     EscrowState::LEN as u64,
+    //     &crate::ID,        
+    // )?;
+    // create_account_with_seed_ctx.invoke_signed(&signers)?;
+
+    // // Create the governance config account
+    // CreateAccount {
+    //     from: maker,
+    //     to: escrow_acc,
+    //     space: EscrowState::LEN as u64,
+    //     owner: &crate::ID,
+    //     sysvar_rent_acc,
+    //     // lamports: rent.minimum_balance(MyState::LEN),
+    // }
+    // .invoke_signed(&signers)?;
+
+    
 
     EscrowState::make(escrow_acc, ix_data)?;
 

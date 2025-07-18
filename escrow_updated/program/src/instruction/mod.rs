@@ -2,11 +2,13 @@ use pinocchio::program_error::ProgramError;
 
 pub mod make;
 pub mod take;
-pub mod create_account_checked;
+pub mod create_account;
+pub mod create_account_with_seed;
 
 pub use make::*;
 pub use take::*;
-pub use create_account_checked::*;
+pub use create_account::*;
+pub use create_account_with_seed::*;
 
 #[repr(u8)]
 pub enum EscrowInstruction {
