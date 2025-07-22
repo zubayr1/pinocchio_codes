@@ -10,6 +10,22 @@ pub enum MyProgramError {
     PdaMismatch,
     // Invalid Owner
     InvalidOwner,
+    // Invalid Mint
+    InvalidMint,
+    // Invalid Treasury
+    InvalidTreasury,
+    // Invalid Multisig
+    InvalidMultisig,
+    // Invalid Threshold
+    InvalidThreshold,
+    // Invalid Index
+    InvalidIndex,
+    // Overflow
+    Overflow,
+    // Underflow
+    Underflow,
+    // Member Not Found
+    MemberNotFound,
 }
 
 impl From<MyProgramError> for ProgramError {
