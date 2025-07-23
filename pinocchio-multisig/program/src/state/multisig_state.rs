@@ -20,6 +20,8 @@ pub struct MultisigState {
     pub members: [Member; 10],
     pub current_index: i8,
     pub roaming_index: i8,
+    pub transaction_index: u64,
+    pub stale_transaction_index: i64,
     pub bump: u8,
 }
 
@@ -52,8 +54,16 @@ impl MultisigState {
         multisig_state.members = [Member::default(); 10];
         multisig_state.current_index = 0;
         multisig_state.roaming_index = 0;
+        multisig_state.transaction_index = 0;
+        multisig_state.stale_transaction_index = -1;
         multisig_state.bump = bump;
 
+        Ok(())
+    }
+
+    pub fn update_stale_transaction_index(multisig_acc: &AccountInfo, stale_transaction_index: i64) -> ProgramResult {
+        let multisig_state = unsafe { try_from_account_info_mut::<MultisigState>(multisig_acc) }?;
+        multisig_state.stale_transaction_index = stale_transaction_index;
         Ok(())
     }
 }
