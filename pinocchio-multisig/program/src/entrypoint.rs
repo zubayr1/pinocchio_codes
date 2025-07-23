@@ -40,6 +40,41 @@ fn process_instruction(
             instruction::process_update_members(accounts, instruction_data)?;
             Ok(())
         }
+        MultisigInstruction::CreateTransaction => {
+            msg!("Ix:3");
+            instruction::process_create_transaction(accounts, instruction_data)?;
+            Ok(())
+        }
+        MultisigInstruction::CreateProposal => {
+            msg!("Ix:4");
+            instruction::process_create_proposal(accounts, instruction_data)?;
+            Ok(())
+        }
+        MultisigInstruction::Vote => {
+            msg!("Ix:5");
+            instruction::process_vote(accounts, instruction_data)?;
+            Ok(())
+        }
+        MultisigInstruction::UpdateProposalResult => {
+            msg!("Ix:6");
+            instruction::process_update_proposal_result(accounts, instruction_data)?;
+            Ok(())
+        }
+        MultisigInstruction::ApproveTransaction => {
+            msg!("Ix:7");
+            instruction::process_approve_transaction(accounts, instruction_data)?;
+            Ok(())
+        }
+        MultisigInstruction::ExecuteTransaction => {
+            msg!("Ix:8");
+            instruction::process_execute_transaction(accounts, instruction_data)?;
+            Ok(())
+        }
+        MultisigInstruction::StaleTransactionIndex => {
+            msg!("Ix:9");
+            instruction::process_stale_transaction_index(accounts, instruction_data)?;
+            Ok(())
+        }
         // MultisigInstruction::UpdateConfig => {
         //     msg!("Ix:1");
         //     instruction::process_update_state_v1(accounts, instruction_data)?;
