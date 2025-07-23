@@ -26,6 +26,28 @@ pub enum MyProgramError {
     Underflow,
     // Member Not Found
     MemberNotFound,
+    // Invalid Payer Index
+    InvalidPayerIndex,
+    // Invalid Payer
+    InvalidPayer,
+    // Invalid Vote
+    InvalidVote,
+    // Invalid Transaction Index
+    InvalidTransactionIndex,
+    // Invalid Transaction Status
+    InvalidTransactionStatus,
+    // Invalid Proposal Status
+    InvalidProposalStatus,
+    // Insufficient Votes
+    InsufficientVotes,
+    // Invalid Transaction
+    InvalidTransaction,
+    // Invalid Proposal
+    InvalidProposal,
+    // Unauthorized
+    Unauthorized,
+    // Invalid Executor Index
+    InvalidExecutorIndex,
 }
 
 impl From<MyProgramError> for ProgramError {
