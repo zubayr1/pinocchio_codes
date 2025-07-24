@@ -55,7 +55,7 @@ impl Proposal {
         Ok(())
     }
 
-    pub fn initialize( 
+    pub fn initialize(
         proposal_acc: &AccountInfo,
         multisig_id: u64,
         members: [Pubkey; 10],
@@ -86,16 +86,35 @@ impl Proposal {
         if vote < 1 || vote > 3 {
             return Err(MyProgramError::InvalidVote.into());
         }
-        
-        proposal_state.votes[payer_index] = vote;
-        
-        if vote == 1 {
-            proposal_state.votes[11] += 1;
-        } else if vote == 2 {
-            proposal_state.votes[12] += 1;
-        } else {
-            proposal_state.votes[13] += 1;
+
+        match proposal_state.votes[payer_index] {
+            0 => {
+                proposal_state.votes[10 + vote as usize] += 1;
+            }
+            1 => {
+                if vote != 1 {
+                    proposal_state.votes[10 + vote as usize] += 1;
+                    proposal_state.votes[11] -= 1;
+                }
+            }
+            2 => {
+                if vote != 2 {
+                    proposal_state.votes[10 + vote as usize] += 1;
+                    proposal_state.votes[12] -= 1;
+                }
+            }
+            3 => {
+                if vote != 3 {
+                    proposal_state.votes[10 + vote as usize] += 1;
+                    proposal_state.votes[13] -= 1;
+                }
+            }
+            _ => {
+                return Err(MyProgramError::InvalidVote.into());
+            }
         }
+
+        proposal_state.votes[payer_index] = vote;
 
         proposal_state.votes[10] -= 1;
 
